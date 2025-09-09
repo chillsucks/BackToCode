@@ -1,0 +1,27 @@
+num1 = int(input("Pick a number:"))
+num2 = int(input("Pick a number:"))
+
+symbols = "+", "-", "*", "/"
+ans = 0
+
+while True:
+    fun = str(input("What you want to do?:"))
+
+    if fun == "+":
+        ans = num1 + num2
+        break
+    elif fun == "-":
+        ans = num1 - num2
+        break
+    elif fun == "*":
+        ans = num1 * num2
+        break
+    elif fun == "/":
+        ans = num1 // num2
+        break
+    else:
+        print("Invalid command, try to use +, -, *, /.")
+        continue
+
+
+print(ans)
