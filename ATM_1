@@ -1,0 +1,91 @@
+cards = []
+def login(card):
+    check_pin = input("Въведи PIN: ")
+
+    if check_pin == card["pin"]:
+        return True
+    else:
+        return False
+
+def check_balance(card):
+    print("Налична стойност:", card["balance"])
+
+def withdraw(card):
+    amount = float(input("Въведи сума за теглене: "))
+    if amount <= card["balance"]:
+        card["balance"] -= amount
+        card["history"].append(f"Tеглене: -{amount}лв.")
+        print("Тегленето е успешно. Новията баланс е:", card["balance"])
+    else:
+        print("Недостатъчен баланс!")
+
+def deposit(card):
+    amount = float(input("Въведи сума за внасяне: "))
+    card["balance"] += amount
+    card["history"].append(f"Внасяне: +{amount}лв.")
+    print("Внасянето е успешно. Новията баланс е:", card["balance"])
+
+
+def main_menu(card):
+    while True:
+        print("1.Проверка на баланс\n"
+              "2.Теглене\n"
+              "3.Внасяне\n"
+              "4.История\n"
+              "5.Изход")
+        choice = input("Избери опция: ")
+
+        if choice == "1":
+            check_balance(card)
+        elif choice == "2":
+            withdraw(card)
+        elif choice == "3":
+            deposit(card)
+        elif choice == "4":
+            for item in card["history"]:
+                print(item)
+        elif choice == "5":
+            break
+        else:
+            print("Невалиден избор")
+
+
+
+def create_card():
+    pin = input("Въведи нов PIN: ")
+    card = {
+        "pin": pin,
+        "balance": 0,
+        "history": []
+    }
+    return card
+
+
+def start_atm():
+    print("Добре дошли в Банка ИГБ!")
+
+    card = create_card()
+    cards.append(card)
+
+    attempts = 3
+    while attempts > 0:
+        entered_pin = input("Въведи PIN: ")
+        found_card = None
+
+        for c in cards:
+            if c["pin"] == entered_pin:
+                found_card = c
+                break
+
+        if found_card:
+            print("Успешен вход!")
+            main_menu(found_card)
+            break
+        else:
+            attempts -= 1
+            if attempts > 0:
+                print(f"Грешен PIN! Остават {attempts} опита.")
+            else:
+                print("Превишен брой опити. Опитайте по-късно!")
+
+start_atm()
